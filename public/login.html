@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    min-height:100vh;
+    width: 100%;
+    background-color: rgb(26, 25, 44);
+}
+.container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    max-width: 430px;
+    width: 100%;
+    background-color: white;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+.container .login-form{
+    padding: 2rem;
+
+}
+.login-form header{
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.login-form input{
+    height: 60px;
+    padding: 0 15px;
+    width: 100%;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+}
+.login-form input:focus{
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+
+}
+.login-form a{
+    font-size: 16px;
+    text-decoration: none;
+}
+.login-form a:hover{
+    text-decoration: underline;
+}
+.login-form input.button{
+    color: #fff;
+    background:rgb(26, 25, 44);
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 1.7rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.login-form input.button:hover{
+    background-color:rgb(49, 54, 72) ;
+}
+.login-form{
+    font-size: 17px;
+    text-align: center;
+}
+.login-form label{
+    cursor: pointer;
+    color: blue;
+}
+.login-form label:hover{
+    text-decoration: underline;
+}
+</style>
+<body>
+    <div class="container">
+     <div class="login-form">
+        <header>Login</header>
+        <form action="#" id="login-form">
+            <input type="email" placeholder="enter your email" name="email">
+            <input type="password" placeholder="Create a Password" name="password">
+            <input type="password" placeholder="confirm your password" name="confirmpassword">
+            <a href="forgotpassword.html">Forgot password?</a>
+            <input type="submit" class="button" value="Login" >
+        </form>
+        <div class="signup">
+            <span class="signup">Don't have an account?
+                <a href="signup.html"><label>Signup</label></a>
+            </span>
+        </div>
+     </div>
+    </div>
+</body>
+<script>
+    document.getElementById('login-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const form = event.target; // Get the form element
+        const formData = new FormData(form);
+        const email=formData.get("email");
+        const password=formData.get("password")
+        const confirmpassword=formData.get("confirmpassword")
+
+
+        const dataToSend = {
+            email: email,
+            password: password,
+            confirmpassword:confirmpassword,
+        };
+
+        fetch("http://localhost:4000/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend),
+        })
+        .then(response => response.json())
+        .then(data => {
+            
+            if (data.message === 'Login successful') {
+                
+                alert('Login successful');
+                
+                window.location.href ='http://localhost:4000';}
+                else if(data.message==='Password not matching'){
+                    alert('passwords do not match')
+                }
+                else{
+                
+                alert('Login failed. Please check your credentials.');
+            }
+            console.log("API Response:", data);
+           
+        })
+        .catch(error => {
+         
+            console.log("Error:", error);
+        });
+    });
+</script>
+</html>
