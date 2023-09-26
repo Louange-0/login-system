@@ -43,6 +43,13 @@ app.use('/students', studentRoute);
 app.use('/teachers',teacherRoute);
 app.use('/users',userRoute)
 
+app.get('/',(req,res)=>{
+ res.sendFile('signup.html', { root: __dirname + '/public' });
+})
+app.get('/users/reset-password/:token',(req,res)=>{
+  res.sendFile('resetpassword.html', { root: __dirname + '/public' });
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
