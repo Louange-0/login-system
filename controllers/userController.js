@@ -293,7 +293,6 @@ export const renderPasswordResetForm = async (req, res) => {
         if (!user) {
             return res.status(404).json({ success: false, message: 'Invalid or expired token' });
         }
-
         // Render the password reset form, passing the token as a parameter
         // You can use a template engine like EJS or send an HTML file
         res.sendFile(path.join(__dirname, '../public', 'resetpassword.html'));
